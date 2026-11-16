@@ -1,0 +1,15 @@
+node_modules
+.next
+out
+dist
+.env
+.env.local
+.env.*.local
+storage
+*.log
+.playwright-cli
+.DS_Store
+tsconfig.tsbuildinfo
+docs/preview
+docs/reference
+.vercel
