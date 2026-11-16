@@ -18,6 +18,10 @@
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
+/* 桌面默认视觉对齐浏览器约 80% 缩放，避免 100% 时整页偏大、裁切 */
+@media (min-width: 901px) {
+  html { zoom: 0.8; }
+}
 body {
   margin: 0;
   overflow-x: clip;
