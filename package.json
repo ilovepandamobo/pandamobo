@@ -2,10 +2,10 @@
   "name": "pandamobo",
   "private": true,
   "scripts": {
-    "dev": "npm run dev --prefix static-blog",
-    "build": "npm run build --prefix static-blog",
-    "start": "npm run start --prefix static-blog",
-    "lint": "npm run lint --prefix static-blog",
-    "typecheck": "npm run typecheck --prefix static-blog"
+    "dev": "npm --prefix static-blog run dev --",
+    "build": "npm --prefix static-blog run build --",
+    "start": "npm --prefix static-blog run start --",
+    "lint": "npm --prefix static-blog run lint --",
+    "typecheck": "npm --prefix static-blog run typecheck --"
   }
 }

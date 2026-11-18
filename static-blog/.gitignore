@@ -13,3 +13,6 @@ tsconfig.tsbuildinfo
 docs/preview
 docs/reference
 .vercel
+.open-next
+.wrangler
+.dev.vars
