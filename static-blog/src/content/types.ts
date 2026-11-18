@@ -112,7 +112,7 @@ export function pendingMetric(
   partial: Omit<
     Metric,
     "sourceDocument" | "factCheckStatus" | "approvedForPublic"
-  > & { internalNote?: string },
+  > & { approvedForPublic?: boolean; internalNote?: string },
 ): Metric {
   return {
     sourceDocument: SOURCE_DOCUMENT,
