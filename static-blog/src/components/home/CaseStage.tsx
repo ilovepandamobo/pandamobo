@@ -26,6 +26,9 @@ const DEFAULT_PALETTE: [string, string, number] = ["134 155 181", "173 181 193",
 
 export function CaseStage({ cases }: { cases: PublicCase[] }) {
   const [slug, setSlug] = useState(cases[0]?.slug ?? "");
+  const [frontSlug, setFrontSlug] = useState(cases[0]?.slug ?? "");
+  const [backSlug, setBackSlug] = useState<string | null>(null);
+  const [entering, setEntering] = useState(false);
   const [paused, setPaused] = useState(true);
   const [reading, setReading] = useState(false);
   const [visible, setVisible] = useState(false);
@@ -34,6 +37,8 @@ export function CaseStage({ cases }: { cases: PublicCase[] }) {
   const rootRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
   const active = cases.find(item => item.slug === slug) ?? cases[0];
+  const front = cases.find(item => item.slug === frontSlug) ?? active;
+  const back = backSlug ? cases.find(item => item.slug === backSlug) : undefined;
   const position = Math.max(0, cases.findIndex(item => item.slug === active?.slug));
   const running = !paused && !reading && visible && !hidden;
 
@@ -78,7 +83,29 @@ export function CaseStage({ cases }: { cases: PublicCase[] }) {
     list.scrollLeft += rowBox.left + rowBox.width / 2 - (listBox.left + listBox.width / 2);
   }, [active?.slug]);
 
-  if (!active) return null;
+  useEffect(() => {
+    if (!active || active.slug === frontSlug) return;
+    setBackSlug(frontSlug);
+    setFrontSlug(active.slug);
+    setEntering(true);
+    const timer = window.setTimeout(() => {
+      setBackSlug(null);
+      setEntering(false);
+    }, 420);
+    return () => window.clearTimeout(timer);
+  }, [active?.slug, frontSlug]);
+
+  useEffect(() => {
+    if (!visible) return;
+    for (const item of cases) {
+      if (!item.coverImage) continue;
+      const image = new window.Image();
+      image.decoding = "async";
+      image.src = item.coverImage;
+    }
+  }, [cases, visible]);
+
+  if (!active || !front) return null;
   const select = (next: number) => {
     const item = cases[(next + cases.length) % cases.length];
     if (item) setSlug(item.slug);
@@ -100,8 +127,13 @@ export function CaseStage({ cases }: { cases: PublicCase[] }) {
         onFocusCapture={() => setReading(true)}
         onBlurCapture={event => { if (!event.currentTarget.contains(event.relatedTarget)) setReading(false); }}>
         <a className="case-stage-cover" href={active.coverImage} target="_blank" rel="noopener noreferrer" aria-label={`查看${active.brand}案例完整大图（新窗口）`}>
-          <div key={active.slug} className="is-active">
-            <CaseCover tone={active.tone} name={active.shortName} label={active.coverLabel} src={active.coverImage} />
+          {back ? (
+            <div className="case-slide is-back" aria-hidden="true">
+              <CaseCover tone={back.tone} name={back.shortName} label={back.coverLabel} src={back.coverImage} eager />
+            </div>
+          ) : null}
+          <div className={`case-slide is-front${entering ? " is-enter" : ""}`}>
+            <CaseCover tone={front.tone} name={front.shortName} label={front.coverLabel} src={front.coverImage} eager />
           </div>
           <span className="case-image-expand" aria-hidden="true">查看大图 ↗</span>
         </a>

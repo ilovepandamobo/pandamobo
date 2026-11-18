@@ -37,8 +37,8 @@ export function HeroArt() {
   );
 }
 
-export function CaseCover({ tone, name, label, src, thumbnail = false }: { tone: Tone; name: string; label: string; src?: string; thumbnail?: boolean }) {
-  if (src) return <div className="case-cover case-cover-source"><img src={thumbnail ? src.replace(/\.webp$/, "-thumb.webp") : src} alt={label} width={1800} height={1013} loading="lazy" decoding="async" /></div>;
+export function CaseCover({ tone, name, label, src, thumbnail = false, eager = false }: { tone: Tone; name: string; label: string; src?: string; thumbnail?: boolean; eager?: boolean }) {
+  if (src) return <div className="case-cover case-cover-source"><img src={thumbnail ? src.replace(/\.webp$/, "-thumb.webp") : src} alt={label} width={1800} height={1013} loading={eager || !thumbnail ? "eager" : "lazy"} decoding="async" /></div>;
   const [a, b] = tones[tone];
   return (
     <div className="case-cover" style={{ background: `linear-gradient(145deg, ${a}, ${b})` }}>
