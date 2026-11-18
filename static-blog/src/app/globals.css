@@ -2766,47 +2766,143 @@ p { margin: 0; }
   }
 }
 
-/* Desktop default visual matches previous ~90% browser zoom.
-   Height uses 100dvh/0.9 so full-screen panels still fill the viewport after zoom. */
+/* Desktop: denser layout ≈ previous 90% browser zoom, but still fills one full screen.
+   Do NOT use CSS zoom — it leaves a dark gap under the hero (hero-lab sticky). */
 @media (min-width: 901px) {
-  html {
-    zoom: 0.9;
-  }
-
   :root {
-    --frame: calc(100dvh / 0.9);
+    --nav: 76px;
   }
 
-  #hero.hero {
-    height: var(--frame);
-    min-height: var(--frame);
-    max-height: var(--frame);
+  .nav.nav-refined {
+    height: 76px;
+  }
+
+  .nav-refined .brand-logo {
+    height: 42px;
+    max-width: 132px;
+  }
+
+  .nav-refined .nav-cta {
+    min-height: 42px;
+    padding: 0 18px;
+    font-size: 13px;
+  }
+
+  .nav-refined-links > a,
+  .nav-group > button {
+    font-size: 13px;
+  }
+
+  .hero-lab-sticky {
+    height: 100dvh;
+  }
+
+  #hero.hero,
+  .hero-lab .hero,
+  .hero-lab-opening .hero {
+    height: 100dvh;
+    min-height: 100dvh;
+    max-height: 100dvh;
+    padding: calc(var(--nav) + 8px) 0 72px;
     overflow: hidden;
+  }
+
+  #hero .hero-grid {
+    translate: 0 0;
+    gap: 28px;
+  }
+
+  #hero .hero-controls {
+    bottom: 22px;
+    padding-top: 12px;
+  }
+
+  #hero .slide-copy .eyebrow {
+    margin-bottom: 12px;
+  }
+
+  #hero .slide-copy .hero-category {
+    font-size: 16px;
+    line-height: 1.35;
+    margin-bottom: 10px;
+  }
+
+  #hero .slide-copy .slide-title {
+    font-size: clamp(34px, 3.15vw, 52px);
+    min-height: 0;
+    line-height: 1.22;
+  }
+
+  #hero .slide-copy .lede {
+    font-size: 14px;
+    line-height: 1.7;
+    margin-top: 12px;
+    min-height: 0;
+  }
+
+  #hero .slide-copy .hero-actions {
+    margin-top: 16px;
+    min-height: 0;
+  }
+
+  #hero .slide-copy .hero-actions .btn {
+    min-height: 42px;
+    padding: 0 18px;
+    font-size: 13px;
+  }
+
+  #hero .slide-copy .hero-support {
+    margin-top: 12px;
+  }
+
+  .h-scene {
+    width: min(100%, calc((100dvh - var(--nav) - 140px) * 1.05));
+    max-height: calc(100dvh - var(--nav) - 140px);
+    aspect-ratio: 1.05;
+    margin-inline: auto;
+    overflow: visible;
+  }
+
+  .h-scene-orbit .h-sculpture {
+    inset: 8% 2% 0;
+  }
+
+  .h-social-slot {
+    width: 46px;
+    height: 46px;
+  }
+
+  .h-social-badge img {
+    width: 26px;
+    height: 26px;
   }
 
   .screen,
   .consult.screen {
-    min-height: var(--frame);
+    min-height: 100dvh;
   }
 
   .wa-screen.screen {
-    height: var(--frame);
-    min-height: var(--frame);
-    max-height: var(--frame);
-  }
-
-  .map-sticky {
-    height: var(--frame);
+    height: 100dvh;
+    min-height: 100dvh;
+    max-height: 100dvh;
+    padding: 52px 0 32px;
   }
 
   #services.screen .svc-rail {
-    height: min(640px, calc(var(--frame) - 230px));
+    height: min(560px, calc(100dvh - 180px));
   }
 
-  .h-scene {
-    width: min(100%, calc((var(--frame) - var(--nav) - 160px) * 1.1));
-    max-height: calc(var(--frame) - var(--nav) - 160px);
-    margin-inline: auto;
-    overflow: visible;
+  #products.screen {
+    padding: 56px 0 40px;
+  }
+
+  #cases.screen {
+    padding-top: 88px;
+    padding-bottom: 40px;
+  }
+
+  .map-sticky {
+    height: 100dvh;
   }
 }
